@@ -44,23 +44,13 @@ const CONFIG = {
         // Compile ES2015 using bable
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: BABEL_CONFIG
-          }
-        ]
-      },
-      {
-        // Unfortunately, webpack doesn't import library sourcemaps on its own...
-        test: /\.js$/,
-        use: ['source-map-loader'],
-        enforce: 'pre'
+        loader: 'babel-loader',
+        options: BABEL_CONFIG
       }
     ]
   },
   node: {
-    fs: 'empty'
+    fs: 'empty',
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -71,11 +61,11 @@ const CONFIG = {
 module.exports = env => {
   let config = Object.assign({}, CONFIG);
 
-  if (env && env.local) {
+  if (env.local) {
     // This line enables bundling against src in this repo rather than installed module
     config = require('../webpack.config.local')(config)(env);
   }
-  if (env && env.prod) {
+  if (env.prod) {
     config.mode = 'production';
     config.devtool = '';
   }

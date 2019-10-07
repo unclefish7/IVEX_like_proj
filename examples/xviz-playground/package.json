@@ -1,10 +1,13 @@
 {
-  "name": "streetscape.gl-quick-start",
+  "name": "streetscape.gl-playground",
   "description": "A template app of streetscape.gl",
   "version": "0.1.0",
   "scripts": {
     "start-local": "webpack-dev-server --env.local --progress --hot --open",
-    "build": "NODE_ENV=production webpack -p --env.local --env.prod"
+    "build-clean": "rm -rf dist && mkdir dist",
+    "build-copy": "cp index.html dist",
+    "build-script": "NODE_ENV=production webpack  --env.local --env.prod",
+    "build": "npm run build-clean && npm run build-script && npm run build-copy"
   },
   "dependencies": {
     "@xviz/builder": "^1.0.0",
