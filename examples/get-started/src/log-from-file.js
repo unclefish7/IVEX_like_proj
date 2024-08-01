@@ -17,15 +17,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-import {XVIZFileLoader} from 'streetscape.gl';
+import {XVIZFileLoader} from 'streetscape.gl'; // 从streetscape.gl导入XVIZFileLoader模块，用于从文件加载XVIZ数据
 
 export default new XVIZFileLoader({
-  timingsFilePath:
-    'https://raw.githubusercontent.com/uber/xviz-data/master/kitti/2011_09_26_drive_0005_sync/0-frame.json',
+  // 指定时间文件路径，用于描述各帧之间的时间关系
+  timingsFilePath: 'https://raw.githubusercontent.com/uber/xviz-data/master/kitti/2011_09_26_drive_0005_sync/0-frame.json',
+  
+  // 指定获取每帧数据文件路径的方法
+  // 这里使用模板字符串和箭头函数，根据索引返回对应的文件路径
   getFilePath: index =>
-    `https://raw.githubusercontent.com/uber/xviz-data/master/kitti/2011_09_26_drive_0005_sync/${index +
-      1}-frame.glb`,
-  worker: true,
-  maxConcurrency: 4
+    `https://raw.githubusercontent.com/uber/xviz-data/master/kitti/2011_09_26_drive_0005_sync/${index + 1}-frame.glb`,
+  
+  worker: true, // 启用Web Worker以提高加载性能
+  maxConcurrency: 4 // 设置最大并发数，限制同时加载的文件数量
 });
+// 创建并导出一个新的XVIZFileLoader实例，用于从指定的文件路径加载XVIZ数据

@@ -17,57 +17,58 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+/* eslint-disable no-process-env */ // 禁用ESLint规则，允许使用process.env
+const {resolve} = require('path'); // 导入path模块，用于处理文件和目录路径
+const webpack = require('webpack'); // 导入webpack模块
 
-/* eslint-disable no-process-env */
-const {resolve} = require('path');
-const webpack = require('webpack');
-
+// Babel配置，用于编译ES2015和React代码
 const BABEL_CONFIG = {
-  presets: ['@babel/preset-env', '@babel/preset-react'],
-  plugins: ['@babel/proposal-class-properties']
+  presets: ['@babel/preset-env', '@babel/preset-react'], // 使用的Babel预设
+  plugins: ['@babel/proposal-class-properties'] // 使用的Babel插件
 };
 
+// Webpack配置
 const CONFIG = {
-  mode: 'development',
+  mode: 'development', // 设置模式为开发模式
   entry: {
-    app: resolve('./src/app.js')
+    app: resolve('./src/app.js') // 入口文件，定义应用程序的主文件
   },
-  devtool: 'source-map',
+  devtool: 'source-map', // 生成源映射文件，便于调试
   output: {
-    path: resolve('./dist'),
-    filename: 'bundle.js'
+    path: resolve('./dist'), // 输出目录
+    filename: 'bundle.js' // 输出文件名
   },
   module: {
-    noParse: /(mapbox-gl)\.js$/,
+    noParse: /(mapbox-gl)\.js$/, // 不解析mapbox-gl的JS文件，提高构建速度
     rules: [
       {
-        // Compile ES2015 using bable
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: BABEL_CONFIG
+        // 使用babel-loader编译ES2015和React代码
+        test: /\.js$/, // 匹配所有JS文件
+        exclude: /node_modules/, // 排除node_modules目录
+        loader: 'babel-loader', // 使用babel-loader进行编译
+        options: BABEL_CONFIG // Babel配置
       }
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.EnvironmentPlugin(['MapboxAccessToken'])
+    new webpack.HotModuleReplacementPlugin(), // 热模块替换插件，用于在运行时更新各种模块，而无需进行完全刷新
+    new webpack.EnvironmentPlugin(['MapboxAccessToken']) // 环境变量插件，用于定义环境变量
   ]
 };
 
 module.exports = (env = {}) => {
-  let config = Object.assign({}, CONFIG);
+  let config = Object.assign({}, CONFIG); // 创建一个新的配置对象
 
-  // This switch between streaming and static file loading
+  // 根据环境变量切换流加载和静态文件加载
   config.plugins = config.plugins.concat([
-    new webpack.DefinePlugin({__IS_STREAMING__: JSON.stringify(Boolean(env.stream))}),
-    new webpack.DefinePlugin({__IS_LIVE__: JSON.stringify(Boolean(env.live))})
+    new webpack.DefinePlugin({__IS_STREAMING__: JSON.stringify(Boolean(env.stream))}), // 定义__IS_STREAMING__变量
+    new webpack.DefinePlugin({__IS_LIVE__: JSON.stringify(Boolean(env.live))}) // 定义__IS_LIVE__变量
   ]);
 
   if (env.local) {
-    // This line enables bundling against src in this repo rather than installed module
+    // 启用本地配置，优先使用本地src目录中的文件，而不是安装的模块
     config = require('../webpack.config.local')(config)(env);
   }
 
-  return config;
+  return config; // 返回最终配置
 };

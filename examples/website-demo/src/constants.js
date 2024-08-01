@@ -22,7 +22,7 @@ import {load} from '@loaders.gl/core';
 import {OBJLoader} from '@loaders.gl/obj';
 
 /* eslint-disable camelcase */
-export const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
+export const MAPBOX_TOKEN = "pk.eyJ1IjoidW5jbGVmaXNoNyIsImEiOiJjbHphbTI0bXkwOG5hMmtva3ZhY2V3d3VuIn0.9sDgCWGerQ5tFNBNjIqNXw"; // eslint-disable-line
 
 export const MAP_STYLE = 'mapbox://styles/uberdata/cjfxhlikmaj1b2soyzevnywgs';
 

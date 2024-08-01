@@ -1,23 +1,32 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset='UTF-8' />
-    <title>streetscape.gl quick start</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8' /> <!-- 设置文档字符编码为UTF-8 -->
+    <title>streetscape.gl quick start</title> <!-- 设置页面标题 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 使页面适应不同设备的宽度，确保在移动设备上显示良好 -->
     <style>
-body { margin: 0; }
-#container { position: fixed; display: flex; width: 100vw; height: 100vh; overflow: hidden; }
-#control-panel { box-sizing: border-box; width: 320px; padding: 12px; position: relative; z-index: 1; box-shadow: 0 0 8px rgba(0,0,0,0.3); height: 100%; overflow-x: hidden; overflow-y: auto; }
-#control-panel hr { margin: 24px -12px; opacity: 0.3; }
-#log-panel { flex-grow: 1; display: flex; flex-direction: column; height: 100%; }
-#map-view { flex-grow: 1; position: relative; }
-#timeline { padding: 24px 0; position: relative; }
-#hud { position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; box-shadow: 0 0 8px rgba(0,0,0,0.3); }
-#hud hr {margin: 0; opacity: 0.3;}
+      /* 设置基本的样式 */
+      body { margin: 0; } /* 移除body的默认外边距 */
+      #container { position: fixed; display: flex; width: 100vw; height: 100vh; overflow: hidden; }
+      /* 设置container为固定定位，宽高为100%，隐藏溢出的内容 */
+      #control-panel { box-sizing: border-box; width: 320px; padding: 12px; position: relative; z-index: 1; box-shadow: 0 0 8px rgba(0,0,0,0.3); height: 100%; overflow-x: hidden; overflow-y: auto; }
+      /* 设置控制面板的样式，包括宽度、内边距、阴影等 */
+      #control-panel hr { margin: 24px -12px; opacity: 0.3; }
+      /* 设置控制面板中的水平线的样式 */
+      #log-panel { flex-grow: 1; display: flex; flex-direction: column; height: 100%; }
+      /* 设置日志面板的样式，使其在container中填满剩余空间 */
+      #map-view { flex-grow: 1; position: relative; }
+      /* 设置地图视图的样式 */
+      #timeline { padding: 24px 0; position: relative; }
+      /* 设置时间轴的样式 */
+      #hud { position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; box-shadow: 0 0 8px rgba(0,0,0,0.3); }
+      /* 设置HUD（抬头显示）的样式，包括位置、显示方式和阴影 */
+      #hud hr {margin: 0; opacity: 0.3;}
+      /* 设置HUD中的水平线的样式 */
     </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script src='bundle.js'></script>
+    <div id="app"></div> <!-- 用于挂载React应用的容器 -->
+    <script src='bundle.js'></script> <!-- 加载打包后的JavaScript文件 -->
   </body>
 </html>
