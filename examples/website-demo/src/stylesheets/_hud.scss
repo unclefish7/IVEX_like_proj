@@ -1,23 +1,25 @@
 #hud {
-  display: flex;
-  background: $background;
-  opacity: 0.9;
-  box-sizing: border-box;
-  padding: 12px 8px;
+  display: flex; // 使用 flex 布局
+  background: $background; // 背景颜色
+  opacity: 0.9; // 不透明度
+  box-sizing: border-box; // 盒模型的计算方式
+  padding: 12px 8px; // 内边距
 
+  // HUD 列的样式
   .hud-column {
-    width: 108px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    width: 108px; // 宽度
+    display: flex; // 使用 flex 布局
+    flex-direction: column; // 子元素按列排列
+    align-items: center; // 子元素居中对齐
+    justify-content: space-between; // 子元素均匀分布
   }
 
+  // 自主状态的样式
   .autonomy-state {
-    font-size: 12px;
-    width: 92px;
-    text-align: center;
-    text-transform: capitalize;
-    padding: 4px 0;
+    font-size: 12px; // 字体大小
+    width: 92px; // 宽度
+    text-align: center; // 文本居中对齐
+    text-transform: capitalize; // 首字母大写
+    padding: 4px 0; // 内边距
   }
 }

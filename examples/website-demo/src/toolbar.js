@@ -1,86 +1,74 @@
-// Copyright (c) 2019 Uber Technologies, Inc.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
 /* global document */
 import React, {PureComponent} from 'react';
-import {Tooltip, Popover, Button} from '@streetscape.gl/monochrome';
+import {Tooltip, Popover, Button} from '@streetscape.gl/monochrome'; // 引入单色调库中的工具提示、弹出框和按钮组件
 
-import {TOOLTIP_STYLE, TOOLBAR_MENU_STYLE, TOOLBAR_BUTTON_STYLE} from './custom-styles';
+import {TOOLTIP_STYLE, TOOLBAR_MENU_STYLE, TOOLBAR_BUTTON_STYLE} from './custom-styles'; // 引入自定义样式
 
+// 定义视图模式
 const VIEW_MODE = {
-  TOP_DOWN: {desc: 'Top down (T)', icon: 'top'},
-  PERSPECTIVE: {desc: 'Perspective (P)', icon: 'perspective'},
-  DRIVER: {desc: 'Driver (D)', icon: 'driver'}
+  TOP_DOWN: {desc: 'Top down (T)', icon: 'top'}, // 顶视图模式
+  PERSPECTIVE: {desc: 'Perspective (P)', icon: 'perspective'}, // 透视视图模式
+  DRIVER: {desc: 'Driver (D)', icon: 'driver'} // 驾驶员视图模式
 };
 
-const noop = () => {};
+const noop = () => {}; // 空函数
 
 export default class Toolbar extends PureComponent {
+  // 组件挂载后添加键盘事件监听器
   componentDidMount() {
     document.addEventListener('keydown', this._onKeyDown);
   }
 
+  // 组件卸载前移除键盘事件监听器
   componentWillUnmount() {
     document.removeEventListener('keydown', this._onKeyDown);
   }
 
+  // 键盘事件处理
   _onKeyDown = evt => {
     const key = String.fromCharCode(evt.keyCode);
 
     switch (key) {
       case 'T':
-        this._gotoViewMode('TOP_DOWN');
+        this._gotoViewMode('TOP_DOWN'); // 切换到顶视图模式
         break;
 
       case 'P':
-        this._gotoViewMode('PERSPECTIVE');
+        this._gotoViewMode('PERSPECTIVE'); // 切换到透视视图模式
         break;
 
       case 'D':
-        this._gotoViewMode('DRIVER');
+        this._gotoViewMode('DRIVER'); // 切换到驾驶员视图模式
         break;
 
       case 'R':
-        this._resetView();
+        this._resetView(); // 重置视图
         break;
 
       case 'I':
-        this._toggleTooltip(!this.props.settings.showTooltip);
+        this._toggleTooltip(!this.props.settings.showTooltip); // 切换工具提示显示状态
         break;
 
       default:
     }
   };
 
+  // 切换视图模式
   _gotoViewMode = viewMode => {
     this.props.onSettingsChange({viewMode});
   };
 
+  // 重置视图
   _resetView = () => {
     this.props.onSettingsChange({viewOffset: {x: 0, y: 0, bearing: 0}});
   };
 
+  // 切换工具提示显示状态
   _toggleTooltip = showTooltip => {
     this.props.onSettingsChange({showTooltip});
   };
 
+  // 渲染视图按钮
   _renderViewButton(mode, opts = {}) {
     const {
       tooltip = VIEW_MODE[mode].desc,
@@ -102,6 +90,7 @@ export default class Toolbar extends PureComponent {
     );
   }
 
+  // 渲染视图模式选择器
   _renderViewModeSelector = () => {
     return (
       <div className="menu">{Object.keys(VIEW_MODE).map(item => this._renderViewButton(item))}</div>
@@ -109,12 +98,12 @@ export default class Toolbar extends PureComponent {
   };
 
   render() {
-    const {settings} = this.props;
+    const {settings} = this.props; // 从属性中获取设置
 
     return (
       <div id="toolbar">
         <Popover
-          content={this._renderViewModeSelector}
+          content={this._renderViewModeSelector} // 渲染视图模式选择器
           trigger={Popover.CLICK}
           arrowSize={0}
           style={TOOLBAR_MENU_STYLE}

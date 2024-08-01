@@ -1,26 +1,7 @@
-// Copyright (c) 2019 Uber Technologies, Inc.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
 import React, {PureComponent} from 'react';
-import {_BaseWidget as BaseWidget, TurnSignalWidget, MeterWidget} from 'streetscape.gl';
+import {_BaseWidget as BaseWidget, TurnSignalWidget, MeterWidget} from 'streetscape.gl'; // 导入所需组件
 
+// 定义各种部件的样式
 const WHEEL_WIDGET_STYLE = {
   arcRadius: 0,
   msrValue: {
@@ -32,6 +13,7 @@ const WHEEL_WIDGET_STYLE = {
     fontSize: 14
   }
 };
+
 const METER_WIDGET_STYLE = {
   arcRadius: 42,
   msrValue: {
@@ -43,6 +25,7 @@ const METER_WIDGET_STYLE = {
     fontSize: 14
   }
 };
+
 const TURN_SIGNAL_WIDGET_STYLE = {
   wrapper: {
     padding: 0
@@ -51,6 +34,8 @@ const TURN_SIGNAL_WIDGET_STYLE = {
     height: 16
   }
 };
+
+// 定义自治状态的颜色
 const AUTONOMY_STATE = {
   autonomous: '#47B275',
   manual: '#5B91F4',
@@ -59,6 +44,7 @@ const AUTONOMY_STATE = {
 };
 
 export default class HUD extends PureComponent {
+  // 渲染自治状态
   _renderAutonomyState({streams}) {
     const state = (streams.state.data && streams.state.data.variable) || 'unknown';
     return (
@@ -74,14 +60,17 @@ export default class HUD extends PureComponent {
     return (
       <div id="hud">
         <div className="hud-column">
+          {/* 使用 BaseWidget 渲染自治状态 */}
           <BaseWidget log={log} streamNames={{state: '/vehicle/autonomy_state'}}>
             {this._renderAutonomyState}
           </BaseWidget>
+          {/* 转向灯部件 */}
           <TurnSignalWidget
             log={log}
             style={TURN_SIGNAL_WIDGET_STYLE}
             streamName="/vehicle/turn_signal"
           />
+          {/* 方向盘角度部件 */}
           <MeterWidget
             log={log}
             style={WHEEL_WIDGET_STYLE}
@@ -91,6 +80,7 @@ export default class HUD extends PureComponent {
             max={180}
           />
         </div>
+        {/* 加速度计部件 */}
         <MeterWidget
           log={log}
           style={METER_WIDGET_STYLE}
@@ -99,6 +89,7 @@ export default class HUD extends PureComponent {
           min={-4}
           max={4}
         />
+        {/* 速度计部件 */}
         <MeterWidget
           log={log}
           style={METER_WIDGET_STYLE}

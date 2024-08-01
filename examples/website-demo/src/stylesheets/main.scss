@@ -1,54 +1,59 @@
-@import 'theme';
+@import 'theme'; // 导入主题样式
 
 body {
-  user-select: none;
-  background: #000;
-  font-family: $font-family;
-  font-weight: 200;
-  font-size: 14px;
-  line-height: 24px;
+  user-select: none; // 禁止用户选择文本
+  background: #000; // 背景色为黑色
+  font-family: $font-family; // 使用主题中定义的字体族
+  font-weight: 200; // 字体粗细为 200
+  font-size: 14px; // 字体大小为 14px
+  line-height: 24px; // 行高为 24px
 }
 
 #container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow:hidden;
-}
-#control-panel {
-  position: fixed;
-  width: 348px;
-  height: calc(100vh - 150px);
-  border-bottom: solid 1px #000;
-}
-#timeline {
-  position: fixed;
-  left: 348px;
-  right: 0;
-  bottom: 0;
-  border-left: solid 1px #000;
-}
-#hud {
-  position: fixed;
-  width: 348px;
-  height: 149px;
-  left: 0;
-  bottom: 0;
-}
-#toolbar {
-  position: fixed;
-  top: calc(50vh - 74px);
-  right: 0;
-  transform: translateY(-50%);
-}
-.mapboxgl-ctrl-logo {
-  margin-left: 350px !important;
-  margin-bottom: 2px !important;
-  opacity: 0.4;
+  position: fixed; // 使用固定定位
+  top: 0; // 距离顶部 0
+  left: 0; // 距离左侧 0
+  width: 100vw; // 宽度为视口宽度的 100%
+  height: 100vh; // 高度为视口高度的 100%
+  overflow: hidden; // 隐藏溢出的内容
 }
 
-@import 'control-panel';
-@import 'toolbar';
-@import 'hud';
+#control-panel {
+  position: fixed; // 使用固定定位
+  width: 348px; // 宽度为 348px
+  height: calc(100vh - 150px); // 高度为视口高度减去 150px
+  border-bottom: solid 1px #000; // 底部边框为 1px 实线黑色
+}
+
+#timeline {
+  position: fixed; // 使用固定定位
+  left: 348px; // 距离左侧 348px
+  right: 0; // 距离右侧 0
+  bottom: 0; // 距离底部 0
+  border-left: solid 1px #000; // 左侧边框为 1px 实线黑色
+}
+
+#hud {
+  position: fixed; // 使用固定定位
+  width: 348px; // 宽度为 348px
+  height: 149px; // 高度为 149px
+  left: 0; // 距离左侧 0
+  bottom: 0; // 距离底部 0
+}
+
+#toolbar {
+  position: fixed; // 使用固定定位
+  top: calc(50vh - 74px); // 距离顶部为视口高度的一半减去 74px
+  right: 0; // 距离右侧 0
+  transform: translateY(-50%); // 垂直方向平移 50%
+}
+
+.mapboxgl-ctrl-logo {
+  margin-left: 350px !important; // 左外边距为 350px
+  margin-bottom: 2px !important; // 下外边距为 2px
+  opacity: 0.4; // 不透明度为 0.4
+}
+
+@import 'control-panel'; // 导入控制面板样式
+@import 'toolbar'; // 导入工具栏样式
+@import 'hud'; // 导入 HUD 样式

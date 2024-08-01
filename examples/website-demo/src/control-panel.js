@@ -1,23 +1,3 @@
-// Copyright (c) 2019 Uber Technologies, Inc.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
 import React, {PureComponent} from 'react';
 import {StreamSettingsPanel, XVIZPanel} from 'streetscape.gl';
 
@@ -27,19 +7,22 @@ import HelpPanel from './help-panel';
 
 export default class ControlPanel extends PureComponent {
   state = {
-    tab: 'streams'
+    tab: 'streams' // 初始化选项卡为 'streams'
   };
 
+  // 切换选项卡的方法
   _gotoTab(tab) {
-    this.setState({tab, lastTab: this.state.tab});
+    this.setState({tab, lastTab: this.state.tab}); // 设置当前选项卡并记录上一个选项卡
   }
 
+  // 渲染选项卡内容的方法
   _renderTabContent() {
-    const {log, selectedLog, onLogChange} = this.props;
+    const {log, selectedLog, onLogChange} = this.props; // 从属性中获取日志数据和选项卡变化处理方法
 
+    // 根据当前选项卡渲染不同的内容
     switch (this.state.tab) {
       case 'streams':
-        return <StreamSettingsPanel log={log} style={STREAM_SETTINGS_STYLE} />;
+        return <StreamSettingsPanel log={log} style={STREAM_SETTINGS_STYLE} />; // 流设置面板
 
       case 'charts':
         return (
@@ -48,22 +31,23 @@ export default class ControlPanel extends PureComponent {
             name="Metrics"
             style={XVIZ_PANEL_STYLE}
             componentProps={{
-              metric: {getColor: '#ccc'}
+              metric: {getColor: '#ccc'} // 设置指标颜色
             }}
           />
         );
 
       case 'info':
-        return <MetadataPanel log={log} selectedLog={selectedLog} onLogChange={onLogChange} />;
+        return <MetadataPanel log={log} selectedLog={selectedLog} onLogChange={onLogChange} />; // 元数据面板
 
       case 'help':
-        return <HelpPanel />;
+        return <HelpPanel />; // 帮助面板
 
       default:
         return null;
     }
   }
 
+  // 渲染单个选项卡的方法
   _renderTab({id, description}) {
     const {tab} = this.state;
 
@@ -75,34 +59,34 @@ export default class ControlPanel extends PureComponent {
   }
 
   render() {
-    const {tab} = this.state;
+    const {tab} = this.state; // 获取当前选项卡
 
-    const isHelpOpen = tab === 'help';
+    const isHelpOpen = tab === 'help'; // 判断帮助面板是否打开
 
     return (
       <div id="control-panel">
         <header>
           <div id="logo">
             <a href="../index.html">
-              <img src="assets/logo.png" />
+              <img src="assets/logo.png" alt="Logo" /> {/* 显示 logo 图片 */}
             </a>
           </div>
           <div id="help-btn">
             {HelpPanel.renderButton({
               isOpen: isHelpOpen,
-              onClick: () => this._gotoTab(isHelpOpen ? this.state.lastTab : 'help')
+              onClick: () => this._gotoTab(isHelpOpen ? this.state.lastTab : 'help') // 切换到帮助选项卡或返回上一个选项卡
             })}
           </div>
           {!isHelpOpen && (
             <div id="tabs">
-              {this._renderTab({id: 'info', description: 'Log Info'})}
-              {this._renderTab({id: 'streams', description: 'Stream Settings'})}
-              {this._renderTab({id: 'charts', description: 'Charts'})}
+              {this._renderTab({id: 'info', description: 'Log Info'})} 
+              {this._renderTab({id: 'streams', description: 'Stream Settings'})} 
+              {this._renderTab({id: 'charts', description: 'Charts'})} 
             </div>
           )}
         </header>
 
-        <main>{this._renderTabContent()}</main>
+        <main>{this._renderTabContent()}</main> {/* 渲染选项卡内容 */}
       </div>
     );
   }

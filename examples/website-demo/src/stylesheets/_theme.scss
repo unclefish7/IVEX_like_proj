@@ -1,33 +1,38 @@
 /* monochrome theme */
 
 /* Colors */
-$background: #333333;
-$background-alt: #222222;
+/* 定义颜色变量 */
+$background: #333333; // 背景色
+$background-alt: #222222; // 备用背景色
 
-$color-control-subtle: #404042;
-$color-control-disabled: #636364;
-$color-control-inactive: #A5A5A6;
-$color-control-hover: #F8F8F9;
-$color-control-active: #5B91F4;
+$color-control-subtle: #404042; // 控件细微变化颜色
+$color-control-disabled: #636364; // 控件禁用状态颜色
+$color-control-inactive: #A5A5A6; // 控件不活跃状态颜色
+$color-control-hover: #F8F8F9; // 控件悬停状态颜色
+$color-control-active: #5B91F4; // 控件活跃状态颜色
 
-$color-text-primary: #F8F8F9;
-$color-text-secondary: #D0D0D1;
-$color-text-subtle: #717172;
-$color-text-invert: #1B1B1C;
+$color-text-primary: #F8F8F9; // 主要文本颜色
+$color-text-secondary: #D0D0D1; // 次要文本颜色
+$color-text-subtle: #717172; // 细微文本颜色
+$color-text-invert: #1B1B1C; // 反转文本颜色
 
 /* Typography */
-$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+/* 定义字体变量 */
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; // 字体族
 
 /* Borders */
-$border-thin: solid 1px;
-$border-strong: solid 2px;
+/* 定义边框变量 */
+$border-thin: solid 1px; // 细边框
+$border-strong: solid 2px; // 粗边框
 
 /* Shadows */
-$shadow-small: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+/* 定义阴影变量 */
+$shadow-small: 0 2px 4px 0 rgba(0, 0, 0, 0.15); // 小阴影
 
 /* Layout */
-$spacing-tiny: 4px;
-$spacing-small: 8px;
-$spacing-normal: 12px;
-$spacing-large: 24px;
-$spacing-huge: 48px;
+/* 定义布局间距变量 */
+$spacing-tiny: 4px; // 微小间距
+$spacing-small: 8px; // 小间距
+$spacing-normal: 12px; // 正常间距
+$spacing-large: 24px; // 大间距
+$spacing-huge: 48px; // 巨大间距

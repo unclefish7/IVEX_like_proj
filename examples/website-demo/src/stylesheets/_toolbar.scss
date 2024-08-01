@@ -1,25 +1,29 @@
 #toolbar {
-  background: $background-alt;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 9999;
+  background: $background-alt; // 设置备用背景色
+  display: flex; // 使用 flex 布局
+  flex-direction: column; // 子元素按列排列
+  align-items: center; // 子元素居中对齐
+  z-index: 9999; // 设置 z-index 值
 
+  // 活跃状态的样式
   .active {
-    background: $color-control-active !important;
-    color: $color-text-primary !important;
+    background: $color-control-active !important; // 设置背景色为活跃状态颜色
+    color: $color-text-primary !important; // 设置字体颜色为主要文本颜色
   }
+  
+  // 选中状态的样式
   .selected {
     .path1:before {
-      color: $color-control-active !important;
+      color: $color-control-active !important; // 设置 path1 的颜色为活跃状态颜色
     }
     .path2:before {
-      color: #fff !important;
+      color: #fff !important; // 设置 path2 的颜色为白色
     }
   }
-  .menu {
-    width: 168px;
-    display: flex;
-  }
 
+  // 菜单的样式
+  .menu {
+    width: 168px; // 设置宽度
+    display: flex; // 使用 flex 布局
+  }
 }
