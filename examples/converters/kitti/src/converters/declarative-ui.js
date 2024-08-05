@@ -11,9 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import {XVIZUIBuilder} from '@xviz/builder';
 
+// 获取声明式UI
 export function getDeclarativeUI({fakeStreams}) {
   const builder = new XVIZUIBuilder({});
 
@@ -28,15 +28,11 @@ export function getDeclarativeUI({fakeStreams}) {
   return builder;
 }
 
+// 创建指标面板
 function getMetricsPanel(builder) {
-  const panel = builder.panel({
-    name: 'Metrics'
-  });
+  const panel = builder.panel({name: 'Metrics'});
 
-  const container = builder.container({
-    name: 'Metrics Panel',
-    layout: 'vertical'
-  });
+  const container = builder.container({name: 'Metrics Panel', layout: 'vertical'});
 
   const metricAcceleration = builder.metric({
     title: 'Acceleration',
@@ -64,10 +60,9 @@ function getMetricsPanel(builder) {
   return panel;
 }
 
+// 创建绘图面板
 function getPlotPanel(builder) {
-  const panel = builder.panel({
-    name: 'Planning'
-  });
+  const panel = builder.panel({name: 'Planning'});
 
   const plot = builder.plot({
     title: 'Cost',
@@ -85,10 +80,9 @@ function getPlotPanel(builder) {
   return panel;
 }
 
+// 创建视频面板
 function getVideoPanel(builder) {
-  const panel = builder.panel({
-    name: 'Camera'
-  });
+  const panel = builder.panel({name: 'Camera'});
 
   const video = builder.video({
     cameras: ['/camera/image_00', '/camera/image_01', '/camera/image_02', '/camera/image_03']
@@ -99,10 +93,9 @@ function getVideoPanel(builder) {
   return panel;
 }
 
+// 创建表格面板
 function getTablePanel(builder) {
-  const panel = builder.panel({
-    name: 'Perception'
-  });
+  const panel = builder.panel({name: 'Perception'});
 
   const table = builder.treetable({
     title: 'Perception',

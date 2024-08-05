@@ -11,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-/* eslint-disable camelcase */
 import fs from 'fs';
 import path from 'path';
 import {
@@ -29,8 +27,7 @@ export default class TrackletsConverter {
     this.trackletFile = path.join(directory, 'tracklet_labels.xml');
     this.getPoses = getPoses;
 
-    // laser scanner relative to GPS position
-    // http://www.cvlibs.net/datasets/kitti/setup.php
+    // 激光雷达相对于GPS的位置
     this.FIXTURE_TRANSFORM_POSE = {
       x: 0.81,
       y: -0.32,
@@ -68,12 +65,12 @@ export default class TrackletsConverter {
 
     this.trackletFrames = new Map();
 
-    // Convert tracklets upfront to support trajectory
+    // 提前转换轨迹对象以支持轨迹
     for (let i = this.frameStart; i < this.frameLimit; i++) {
       this.trackletFrames.set(i, this._convertTrackletsFrame(i));
     }
 
-    // tracklets trajectory is in pose relative coordinate
+    // 轨迹对象的轨迹是相对于姿态的
     this.poses = this.getPoses();
   }
 
@@ -88,9 +85,6 @@ export default class TrackletsConverter {
 
     const tracklets = this.trackletFrames.get(messageNumber);
     tracklets.forEach(tracklet => {
-      // Here you can see how the *classes* are used to tag the object
-      // allowing for the *style* information to be shared across
-      // categories of objects.
       xvizBuilder
         .primitive(this.TRACKLETS)
         .polygon(tracklet.vertices)
@@ -107,12 +101,10 @@ export default class TrackletsConverter {
 
       xvizBuilder
         .primitive(this.TRACKLETS_LABEL)
-        // float above the object
         .position([tracklet.x, tracklet.y, tracklet.z + 2])
         .text(tracklet.id.slice(24));
     });
 
-    // object is in this frame
     this.data.objects
       .filter(object => messageNumber >= object.firstFrame && messageNumber < object.lastFrame)
       .forEach(object => {
@@ -198,7 +190,7 @@ export default class TrackletsConverter {
   }
 
   _convertTrackletsFrame(frameIndex) {
-    // filter objects exist in given frame
+    // 过滤给定帧中存在的对象
     return this.data.objects
       .filter(object => frameIndex >= object.firstFrame && frameIndex < object.lastFrame)
       .map(object => {

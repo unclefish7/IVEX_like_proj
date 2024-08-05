@@ -11,19 +11,21 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import ImageConverter from './image-converter';
 
+// 定义相机数据源
 const CAMERA_SOURCES = ['image_00', 'image_01', 'image_02', 'image_03'];
 
 export default class CameraConverter {
   constructor(rootDir, {disabledStreams = [], options = {}}) {
+    // 初始化根目录和相机数据源，过滤掉禁用的流
     this.rootDir = rootDir;
     this.cameraSources = CAMERA_SOURCES.filter(camera => !disabledStreams.includes(camera));
     this.imageConverters = [];
     this.options = options;
   }
 
+  // 加载相机数据
   load() {
     this.cameraSources.forEach(cameraSource => {
       this.imageConverters.push(new ImageConverter(this.rootDir, cameraSource, this.options));
@@ -32,6 +34,7 @@ export default class CameraConverter {
     this.imageConverters.forEach(imageConverter => imageConverter.load());
   }
 
+  // 转换指定消息编号的数据
   async convertMessage(messageNumber, xvizBuilder) {
     const promises = this.imageConverters.map(imageConverter =>
       imageConverter.convertMessage(messageNumber, xvizBuilder)
@@ -40,6 +43,7 @@ export default class CameraConverter {
     await Promise.all(promises);
   }
 
+  // 获取元数据
   getMetadata(xvizMetaBuilder) {
     this.imageConverters.forEach(imageConverter => imageConverter.getMetadata(xvizMetaBuilder));
   }

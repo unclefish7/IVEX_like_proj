@@ -11,15 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-/* eslint-disable camelcase */
 const CATEGORY_BUILDER_COMMAND = {
   variable: 'variable',
   ui_primitive: 'uiPrimitive'
 };
 
 /**
- * This class generates random data for use in the Declarative UI examples
+ * 此类生成用于声明式UI示例的随机数据
  */
 export default class RandomDataGenerator {
   constructor() {
@@ -87,9 +85,6 @@ export default class RandomDataGenerator {
   }
 
   getMetadata(xvizMetaBuilder) {
-    // You can see the type of metadata we allow to define.
-    // This helps validate data consistency and has automatic
-    // behavior tied to the viewer.
     const xb = xvizMetaBuilder;
 
     for (const streamName in this.streams) {
@@ -105,10 +100,7 @@ export default class RandomDataGenerator {
   }
 }
 
-// creates random table data
-// opts.columns {array}
-// opts.maxNodes {number}
-// opts.maxDepth {number}
+// 创建随机表数据
 function makeRandomTableData(builder, opts, depth = 0, stats = {count: 0}) {
   const {maxDepth = 1, maxNodes = 100} = opts;
 
@@ -133,9 +125,7 @@ function makeRandomColumnValues(columns) {
   return columns.map(col => {
     switch (col.type) {
       case 'string':
-        return Math.random()
-          .toString(16)
-          .slice(2);
+        return Math.random().toString(16).slice(2);
 
       case 'float':
         return Math.random() * 100;

@@ -11,19 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 /* global Buffer */
 import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
 
+// 读取并解析时间戳文件，返回时间戳数组
 export function getTimestamps(timestampsFilePath) {
-  // Read and parse the timestamps
   const content = fs.readFileSync(timestampsFilePath, 'utf8');
   const lines = content.split('\n').filter(Boolean);
 
   const timestamps = lines.map(line => {
-    // Note: original KITTI timestamps give nanoseconds
+    // 将时间戳转换为UNIX时间戳
     const unix = Date.parse(`${line} GMT`) / 1000;
     return unix;
   });
@@ -31,32 +30,30 @@ export function getTimestamps(timestampsFilePath) {
   return timestamps;
 }
 
+// 创建目录及其父目录（如果不存在）
 export function createDir(dirPath) {
   if (!fs.existsSync(dirPath)) {
-    // make sure parent exists
     const parent = path.dirname(dirPath);
     createDir(parent);
-
     fs.mkdirSync(dirPath);
   }
 }
 
+// 递归删除目录及其所有内容
 export function deleteDirRecursive(parentDir) {
   const files = fs.readdirSync(parentDir);
   files.forEach(file => {
     const currPath = path.join(parentDir, file);
     if (fs.lstatSync(currPath).isDirectory()) {
-      // recurse
       deleteDirRecursive(currPath);
     } else {
-      // delete file
       fs.unlinkSync(currPath);
     }
   });
-
   fs.rmdirSync(parentDir);
 }
 
+// 将ArrayBuffer转换为Buffer
 export function toBuffer(ab) {
   assert(ab instanceof ArrayBuffer);
   const buf = new Buffer(ab.byteLength);
@@ -67,6 +64,7 @@ export function toBuffer(ab) {
   return buf;
 }
 
+// 将Buffer转换为ArrayBuffer
 export function toArrayBuffer(buf) {
   assert(buf instanceof Buffer);
   const ab = new ArrayBuffer(buf.length);

@@ -11,30 +11,28 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import path from 'path';
-
 import {resizeImage} from '../parsers/process-image';
 import BaseConverter from './base-converter';
 
 export default class ImageConverter extends BaseConverter {
   constructor(rootDir, camera = 'image_00', options) {
     super(rootDir, camera);
-
+    
+    // 初始化相机数据流名称和数据目录
     this.streamName = `/camera/${camera}`;
     this.dataDir = path.join(this.streamDir, 'data');
-
     this.options = options;
   }
 
   async loadMessage(messageNumber) {
-    // Load the data for this message
+    // 加载指定消息编号的数据
     const fileName = this.fileNames[messageNumber];
     const {maxWidth, maxHeight} = this.options;
     const srcFilePath = path.join(this.dataDir, fileName);
     const {data, width, height} = await resizeImage(srcFilePath, maxWidth, maxHeight);
 
-    // Get the time stamp
+    // 获取时间戳
     const timestamp = this.timestamps[messageNumber];
 
     return {data, timestamp, width, height};
@@ -57,8 +55,8 @@ export default class ImageConverter extends BaseConverter {
   }
 }
 
+// 将Node.js Buffer转换为TypedArray
 function nodeBufferToTypedArray(buffer) {
-  // TODO - per docs we should just be able to call buffer.buffer, but there are issues
   const typedArray = new Uint8Array(buffer);
   return typedArray;
 }

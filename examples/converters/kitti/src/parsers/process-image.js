@@ -11,10 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import fs from 'fs';
 import sharp from 'sharp';
 
+// 计算调整后的图像尺寸，保持宽高比
 function getResizeDimension(width, height, maxWidth, maxHeight) {
   const ratio = width / height;
 
@@ -41,7 +41,7 @@ function getResizeDimension(width, height, maxWidth, maxHeight) {
   };
 }
 
-// preserve aspect ratio
+// 调整图像尺寸，保持宽高比
 export async function resizeImage(filePath, maxWidth, maxHeight) {
   const metadata = await getImageMetadata(filePath);
   const {width, height} = metadata;
@@ -65,6 +65,7 @@ export async function resizeImage(filePath, maxWidth, maxHeight) {
   };
 }
 
+// 获取图像的元数据（宽度、高度等）
 export async function getImageMetadata(filePath) {
   return await sharp(filePath).metadata();
 }

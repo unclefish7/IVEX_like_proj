@@ -11,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-/* eslint-disable camelcase */
 import fs from 'fs';
 import path from 'path';
 import {
@@ -24,11 +22,7 @@ import {loadTracklets} from '../parsers/parse-tracklets';
 
 const FUTURE_STEPS = 100; // 10 seconds
 
-/**
- * FutureTrackletsConverter uses known data about tracklets to generate
- * "future" data (ie predictions) to demonstrate how they can be generated
- * in XVIZ.
- */
+// FutureTrackletsConverter使用已知的轨迹对象数据生成"未来"数据（即预测数据），以演示它们如何在XVIZ中生成。
 export default class FutureTrackletsConverter {
   constructor(directory, getPoses, ts) {
     this.rootDir = directory;
@@ -36,8 +30,7 @@ export default class FutureTrackletsConverter {
     this.getPoses = getPoses;
     this.ts = ts;
 
-    // laser scanner relative to GPS position
-    // http://www.cvlibs.net/datasets/kitti/setup.php
+    // 激光扫描仪相对于GPS的位置
     this.FIXTURE_TRANSFORM_POSE = {
       x: 0.81,
       y: -0.32,
@@ -70,7 +63,6 @@ export default class FutureTrackletsConverter {
       throw new Error('Invalid frame range');
     }
 
-    // tracklets trajectory is in pose relative coordinate
     this.poses = this.getPoses();
   }
 
@@ -133,11 +125,11 @@ export default class FutureTrackletsConverter {
       .pose(this.FIXTURE_TRANSFORM_POSE);
   }
 
-  // create set of data for the currentFrameIndex that represents the tracklets from the futureFrameIndex
+  // 为当前帧创建代表未来帧的轨迹数据
   _convertTrackletsFutureMessage(currentFrameIndex, futureFrameIndex) {
     return (
       this.data.objects
-        // make sure object exists in current frame and the future frame
+        // 确保对象在当前帧和未来帧中存在
         .filter(
           object => currentFrameIndex >= object.firstFrame && futureFrameIndex < object.lastFrame
         )
@@ -145,20 +137,19 @@ export default class FutureTrackletsConverter {
           const currentVehiclePose = this.poses[currentFrameIndex].pose;
           const futureVehiclePose = this.poses[futureFrameIndex].pose;
 
-          // This will return the transform to convert from the futureVehiclePose
-          // to the currentVehiclePose
+          // 返回从未来车辆姿态转换到当前车辆姿态的变换矩阵
           const transform = getGeospatialToPoseTransform(futureVehiclePose, currentVehiclePose);
 
-          // This is the tracklet position in the future, relative to the futureVehiclePose
+          // 这是相对于未来车辆姿态的轨迹位置
           const futurePoseIndex = futureFrameIndex - object.firstFrame;
           const pose = this._makePoseShape(object.data.poses.item[futurePoseIndex]);
 
-          // Translate the future position
+          // 翻译未来位置
           const v = transform.transform([pose.x, pose.y, pose.z]);
           pose.x = v[0];
           pose.y = v[1];
           pose.z = v[2];
-          // Update the relative pose of the object
+          // 更新对象的相对姿态
           pose.yaw -= currentVehiclePose.yaw - futureVehiclePose.yaw;
 
           const vertices = getRelativeCoordinates(object.bounds, pose);

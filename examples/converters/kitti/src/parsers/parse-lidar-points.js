@@ -11,12 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-/**
- * Parse LiDar data (stored in velodyne_points dir),
- */
-
+// 导入必要的模块
 import {Parser as BinaryParser} from 'binary-parser';
+
+// 定义一个二进制解析器，用于解析浮点型小端字节序数据
 const parser = new BinaryParser().floatle();
 
 function readBinaryData(binary) {
@@ -31,12 +29,12 @@ function readBinaryData(binary) {
   return res;
 }
 
+// 解析激光雷达数据
 export function loadLidarData(data) {
   const binary = readBinaryData(data);
   const float = new Float32Array(binary);
   const size = Math.round(binary.length / 4);
 
-  // We could return interleaved buffers, no conversion!
   const positions = new Array(size);
   const colors = new Array(size);
 

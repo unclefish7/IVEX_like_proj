@@ -11,20 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-/* eslint-disable camelcase */
 import uuid from 'uuid/v4';
-
 import BaseConverter from './base-converter';
 import {loadLidarData} from '../parsers/parse-lidar-points';
 
-// load file
+// 加载文件
 export default class LidarConverter extends BaseConverter {
   constructor(rootDir, streamDir, {disabledStreams = []} = {}) {
     super(rootDir, streamDir);
 
     this.LIDAR_POINTS = '/lidar/points';
 
+    // 检查流是否禁用
     this.disabled = disabledStreams
       .map(pattern => RegExp(pattern).test(this.LIDAR_POINTS))
       .some(x => x === true);
@@ -54,8 +52,6 @@ export default class LidarConverter extends BaseConverter {
         fill_color: '#00a',
         radius_pixels: 1
       })
-      // laser scanner relative to GPS position
-      // http://www.cvlibs.net/datasets/kitti/setup.php
       .coordinate('VEHICLE_RELATIVE')
       .pose({
         x: 0.81,

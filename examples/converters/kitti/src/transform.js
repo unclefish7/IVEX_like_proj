@@ -11,16 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-/* eslint-disable camelcase */
+// 导入必要的模块
 import {FileSink} from '@xviz/io/node';
 import {XVIZBinaryWriter, XVIZJSONWriter, XVIZProtobufWriter} from '@xviz/io';
-
 import {KittiConverter} from './converters';
-
 import process from 'process';
 
 module.exports = async function main(args) {
+  // 从命令行参数中解析输入和输出目录等选项
   const {
     inputDir,
     outputDir,
@@ -34,8 +32,7 @@ module.exports = async function main(args) {
     writeProtobuf
   } = args;
 
-  // This object orchestrates any data dependencies between the data sources
-  // and delegates to the individual converters
+  // 创建一个KittiConverter对象，用于处理数据转换
   const converter = new KittiConverter(inputDir, outputDir, {
     cameraSources,
     disabledStreams,
@@ -44,12 +41,13 @@ module.exports = async function main(args) {
     imageMaxHeight
   });
 
-  console.log(`Converting KITTI data at ${inputDir}`); // eslint-disable-line
-  console.log(`Saving to ${outputDir}`); // eslint-disable-line
+  console.log(`Converting KITTI data at ${inputDir}`);
+  console.log(`Saving to ${outputDir}`);
 
+  // 初始化转换器
   converter.initialize();
 
-  // This abstracts the details of the filenames expected by our server
+  // 创建一个FileSink对象，用于管理输出文件
   const sink = new FileSink(outputDir);
   let xvizWriter = null;
   if (writeJson) {
@@ -60,41 +58,35 @@ module.exports = async function main(args) {
     xvizWriter = new XVIZBinaryWriter(sink);
   }
 
-  // Write metadata file
+  // 写入元数据文件
   const xvizMetadata = converter.getMetadata();
   xvizWriter.writeMetadata(xvizMetadata);
 
-  // If we get interrupted make sure the index is written out
+  // 设置信号处理函数，以便在中断时写入索引文件
   signalWriteIndexOnInterrupt(xvizWriter);
 
   const start = Date.now();
 
+  // 计算需要处理的消息数量
   const limit = Math.min(messageLimit, converter.messageCount());
-  // Convert each message and write it to a file
-  //
-  // A *message* is a point in time, where each message will contain
-  // a *pose* and any number of XVIZ data sets.
-  //
-  // In the KITTI data set we are able to iterate directly by *message* number
-  // since the data has been synchronized. However, another approach
-  // would be to iterate over data sets by time.  Since dealing with synchronized
-  // data is easier, we have choosen this path for the initial example to avoid
-  // any unnecessary complications
+  // 转换每个消息并写入文件
   for (let i = 0; i < limit; i++) {
     const xvizMessage = await converter.convertMessage(i);
     xvizWriter.writeMessage(i, xvizMessage);
   }
 
+  // 关闭写入器
   xvizWriter.close();
 
   const end = Date.now();
-  console.log(`Generate ${limit} messages in ${end - start}s`); // eslint-disable-line
+  console.log(`Generate ${limit} messages in ${end - start}s`);
 };
 
+// 在接收到中断信号时，写入索引文件并退出
 function signalWriteIndexOnInterrupt(writer) {
   process.on('SIGINT', () => {
-    console.log('Aborting, writing index file.'); // eslint-disable-line
+    console.log('Aborting, writing index file.');
     writer.close();
-    process.exit(0); // eslint-disable-line no-process-exit
+    process.exit(0);
   });
 }

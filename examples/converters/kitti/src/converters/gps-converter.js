@@ -11,14 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-/* eslint-disable camelcase */
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
 
 import {_getPoseTrajectory} from '@xviz/builder';
-
 import BaseConverter from './base-converter';
 import {loadOxtsPackets} from '../parsers/parse-gps-data';
 import {MOTION_PLANNING_STEPS} from './constant';
@@ -29,7 +26,7 @@ export default class GPSConverter extends BaseConverter {
   constructor(rootDir, streamDir) {
     super(rootDir, streamDir);
 
-    // XVIZ stream names produced by this converter
+    // XVIZ流名，由此转换器生成
     this.VEHICLE_ACCELERATION = '/vehicle/acceleration';
     this.VEHICLE_VELOCITY = '/vehicle/velocity';
     this.VEHICLE_TRAJECTORY = '/vehicle/trajectory';
@@ -40,7 +37,7 @@ export default class GPSConverter extends BaseConverter {
   load() {
     super.load();
 
-    // Load all files because we need them for the trajectory
+    // 加载所有文件以获取轨迹
     this.poses = this.fileNames.map((fileName, i) => {
       const srcFilePath = path.join(this.dataDir, fileName);
       return this._convertPose(srcFilePath, this.timestamps[i]);
@@ -59,11 +56,8 @@ export default class GPSConverter extends BaseConverter {
     const entry = this.poses[messageNumber];
 
     const {pose, velocity, acceleration} = entry;
-    process.stdout.write(`processing message ${messageNumber}/${this.timestamps.length}\r`); // eslint-disable-line
+    process.stdout.write(`processing message ${messageNumber}/${this.timestamps.length}\r`);
 
-    // Every message *MUST* have a pose. The pose can be considered
-    // the core reference point for other data and usually drives the timing
-    // of the system.
     xvizBuilder
       .pose('/vehicle_pose')
       .timestamp(pose.timestamp)
@@ -71,10 +65,6 @@ export default class GPSConverter extends BaseConverter {
       .orientation(pose.roll, pose.pitch, pose.yaw)
       .position(0, 0, 0);
 
-    // This is an example of using the XVIZBuilder to convert your data
-    // into XVIZ.
-    //
-    // The fluent-API makes this construction self-documenting.
     xvizBuilder
       .timeSeries(this.VEHICLE_VELOCITY)
       .timestamp(velocity.timestamp)
@@ -90,7 +80,6 @@ export default class GPSConverter extends BaseConverter {
       .timestamp(velocity.timestamp)
       .value(velocity['angular-rate-upward'] * RADIAN_TO_DEGREE);
 
-    // kitti dataset is always under autonomous mode
     xvizBuilder
       .timeSeries(this.VEHICLE_AUTONOMOUS)
       .timestamp(velocity.timestamp)
@@ -106,39 +95,28 @@ export default class GPSConverter extends BaseConverter {
   }
 
   getMetadata(xvizMetaBuilder) {
-    // You can see the type of metadata we allow to define.
-    // This helps validate data consistency and has automatic
-    // behavior tied to the viewer.
     const xb = xvizMetaBuilder;
     xb.stream('/vehicle_pose')
       .category('pose')
-
       .stream(this.VEHICLE_ACCELERATION)
       .category('time_series')
       .type('float')
       .unit('m/s^2')
-
       .stream(this.VEHICLE_VELOCITY)
       .category('time_series')
       .type('float')
       .unit('m/s')
-
       .stream(this.VEHICLE_WHEEL)
       .category('time_series')
       .type('float')
       .unit('deg/s')
-
       .stream(this.VEHICLE_AUTONOMOUS)
       .category('time_series')
       .type('string')
-
       .stream(this.VEHICLE_TRAJECTORY)
       .category('primitive')
       .type('polyline')
       .coordinate('VEHICLE_RELATIVE')
-
-      // This styling information is applied to *all* objects for this stream.
-      // It is possible to apply inline styling on individual objects.
       .streamStyle({
         stroke_color: '#47B27588',
         stroke_width: 1.4,
@@ -153,33 +131,12 @@ export default class GPSConverter extends BaseConverter {
     return this._convertPoseEntry(oxts, timestamp);
   }
 
-  // Convert raw data into properly parsed objects
-  // @return {pose, velocity, acceleration}
   _convertPoseEntry(oxts, timestamp) {
     const {
-      lat,
-      lon,
-      alt,
-      roll,
-      pitch,
-      yaw,
-      vn,
-      ve,
-      vf,
-      vl,
-      vu,
-      ax,
-      ay,
-      az,
-      af,
-      al,
-      au,
-      wx,
-      wy,
-      wz,
-      wf,
-      wl,
-      wu
+      lat, lon, alt, roll, pitch, yaw,
+      vn, ve, vf, vl, vu,
+      ax, ay, az, af, al, au,
+      wx, wy, wz, wf, wl, wu
     } = oxts;
     const resMap = {};
 

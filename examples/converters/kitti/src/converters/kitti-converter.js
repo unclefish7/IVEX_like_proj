@@ -11,10 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import path from 'path';
-import {XVIZBuilder, XVIZMetadataBuilder} from '@xviz/builder';
 
+import {XVIZBuilder, XVIZMetadataBuilder} from '@xviz/builder';
 import {getTimestamps, createDir} from '../parsers/common';
 import GPSConverter from './gps-converter';
 import LidarConverter from './lidar-converter';
@@ -47,12 +46,10 @@ export class KittiConverter {
 
     this.numMessages = this.timestamps.length;
 
-    // These are the converters for the various data sources.
-    // Notice that some data sources are passed to others when a data dependency
-    // requires coordination with another data source.
+    // 这些是各种数据源的转换器
     const gpsConverter = new GPSConverter(this.inputDir, 'oxts');
 
-    // Note: order is important due to data deps on the pose
+    // 按顺序添加转换器，因为某些数据源需要依赖其他数据源的协调
     this.converters = [
       gpsConverter,
       new TrackletsConverter(this.inputDir, () => gpsConverter.getPoses()),
@@ -78,16 +75,12 @@ export class KittiConverter {
   }
 
   async convertMessage(messageNumber) {
-    // The XVIZBuilder provides a fluent API to construct objects.
-    // This makes it easier to incrementally build objects that may have
-    // many different options or variant data types supported.
     const xvizBuilder = new XVIZBuilder({
       metadata: this.metadata,
       disabledStreams: this.disabledStreams
     });
 
-    // As builder instance is shared across all the converters, to avoid race conditions',
-    // Need wait for each converter to finish
+    // 确保每个转换器都完成转换，避免竞争条件
     for (let i = 0; i < this.converters.length; i++) {
       await this.converters[i].convertMessage(messageNumber, xvizBuilder);
     }
@@ -96,12 +89,6 @@ export class KittiConverter {
   }
 
   getMetadata() {
-    // The XVIZMetadataBuilder provides a fluent API to collect
-    // metadata about the XVIZ streams produced during conversion.
-    //
-    // This include type, category, and styling information.
-    //
-    // Keeping this general data centralized makes it easy to find and change.
     const xb = new XVIZMetadataBuilder();
     xb.startTime(this.timestamps[0]).endTime(this.timestamps[this.timestamps.length - 1]);
 

@@ -11,37 +11,34 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import fs from 'fs';
 import path from 'path';
-
 import {getTimestamps} from '../parsers/common';
 
 export default class BaseConverter {
   constructor(rootDir, streamDir) {
-    // KITTY data streams follow a consistent directory structure
-    // root/image_00/data, root/velodyne_points/data
+    // 初始化根目录和数据流目录
     this.rootDir = rootDir;
     this.streamDir = path.join(this.rootDir, streamDir);
     this.dataDir = path.join(this.streamDir, 'data');
   }
 
   load() {
-    // Load data file names and sort them
+    // 加载并排序数据文件名
     this.fileNames = fs.readdirSync(this.dataDir).sort();
 
-    // Load time stamp table
+    // 加载时间戳表
     const timeFilePath = path.join(this.streamDir, 'timestamps.txt');
     this.timestamps = getTimestamps(timeFilePath);
   }
 
   async loadMessage(messageNumber) {
-    // Load the data for this message
+    // 加载指定消息编号的数据
     const fileName = this.fileNames[messageNumber];
     const srcFilePath = path.join(this.dataDir, fileName);
     const data = fs.readFileSync(srcFilePath);
 
-    // Get the time stamp
+    // 获取时间戳
     const timestamp = this.timestamps[messageNumber];
 
     return {data, timestamp};
