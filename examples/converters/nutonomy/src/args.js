@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//sample args: yarn start -d /root/IVEX_env/myDataSets/nuScene/v1.0-mini --samples-directory /root/IVEX_env/myDataSets/nuScene/samples/ -o /root/IVEX_env/myDataSets/nuScene/output/ --scenes=0061
+
 const {ArgumentParser} = require('argparse');
 
 const parser = new ArgumentParser({
@@ -23,6 +25,7 @@ parser.addArgument(['-d', '--data-directory'], {
   required: true,
   help: 'Path to raw nutonomy data (metadata and annotations).'
 });
+
 
 parser.addArgument(['-o', '--output'], {
   required: true,
