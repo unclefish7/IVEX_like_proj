@@ -96,7 +96,7 @@ module.exports = env => {
         contentBase: [
           resolve(__dirname, '../../website/src/static'), // 网站静态资源目录
           resolve(__dirname, '../../../myDataSets'), // XVIZ 数据目录
-          //resolve(__dirname, './output'), // 自己生成的数据目录
+          //resolve(__dirname, '../../../xviz-data'), // XVIZ 数据目录
           resolve(__dirname) // 当前目录
         ]
       },
