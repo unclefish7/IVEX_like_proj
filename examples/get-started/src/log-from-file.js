@@ -21,12 +21,12 @@ import {XVIZFileLoader} from 'streetscape.gl'; // 从streetscape.gl导入XVIZFil
 
 export default new XVIZFileLoader({
   // 指定时间文件路径，用于描述各帧之间的时间关系
-  timingsFilePath: 'https://raw.githubusercontent.com/uber/xviz-data/master/kitti/2011_09_26_drive_0005_sync/0-frame.json',
+  timingsFilePath: 'http://localhost:8080/data/NuScene/scene-0061/0-frame.json',
   
   // 指定获取每帧数据文件路径的方法
   // 这里使用模板字符串和箭头函数，根据索引返回对应的文件路径
   getFilePath: index =>
-    `https://raw.githubusercontent.com/uber/xviz-data/master/kitti/2011_09_26_drive_0005_sync/${index + 1}-frame.glb`,
+    `http://localhost:8080/data/NuScene/scene-0061/${index + 1}-frame.glb`,
   
   worker: true, // 启用Web Worker以提高加载性能
   maxConcurrency: 4 // 设置最大并发数，限制同时加载的文件数量

@@ -58,32 +58,49 @@ export const LOGS = [
     },
     videoAspectRatio: 10 / 3 // 视频宽高比
   },
-  {
-    name: 'nuTonomy-0006', // 日志名称
-    path: `${LOG_DIR}/nutonomy/scene-0006`, // 日志路径
-    xvizConfig: {
-      TIME_WINDOW: 0.2, // XVIZ 配置中的时间窗口
-      PLAYBACK_FRAME_RATE: 16 // XVIZ 播放帧率
-    },
-    videoAspectRatio: 16 / 9 // 视频宽高比
-  },
-  {
-    name: 'KITTI-0001', // 日志名称
-    path: `${LOG_DIR}/kitti/2011_09_26_drive_0001_sync/xviz`, // 日志路径
-    xvizConfig: {
-      TIME_WINDOW: 0.4 // XVIZ 配置中的时间窗口
-    },
-    videoAspectRatio: 10 / 3 // 视频宽高比
-  },
-  {
-    name: 'nuScene', // 日志名称
-    path: `${LOG_DIR}/nuScene/output/scene-0061`, // 日志路径
-    xvizConfig: {
-      TIME_WINDOW: 0.2, // XVIZ 配置中的时间窗口
-      PLAYBACK_FRAME_RATE: 16 // XVIZ 播放帧率
-    },
-    videoAspectRatio: 16 / 9 // 视频宽高比
-  },
+  // {
+  //   name: 'nuTonomy-0006', // 日志名称
+  //   path: `${LOG_DIR}/nutonomy/scene-0006`, // 日志路径
+  //   xvizConfig: {
+  //     TIME_WINDOW: 0.2, // XVIZ 配置中的时间窗口
+  //     PLAYBACK_FRAME_RATE: 16 // XVIZ 播放帧率
+  //   },
+  //   videoAspectRatio: 16 / 9 // 视频宽高比
+  // },
+  // {
+  //   name: 'KITTI-0001', // 日志名称
+  //   path: `${LOG_DIR}/kitti/2011_09_26_drive_0001_sync/xviz`, // 日志路径
+  //   xvizConfig: {
+  //     TIME_WINDOW: 0.4 // XVIZ 配置中的时间窗口
+  //   },
+  //   videoAspectRatio: 10 / 3 // 视频宽高比
+  // },
+  // {
+  //   name: 'KITTI-0037', // 日志名称
+  //   path: `${LOG_DIR}/kitti/2011_09_28_drive_0037_sync/2011_09_28_drive_0037_sync`, // 日志路径
+  //   xvizConfig: {
+  //     TIME_WINDOW: 0.4 // XVIZ 配置中的时间窗口
+  //   },
+  //   videoAspectRatio: 10 / 3 // 视频宽高比
+  // },
+  // {
+  //   name: 'nuScene', // 日志名称
+  //   path: `${LOG_DIR}/nuScene/output/scene-0061`, // 日志路径
+  //   xvizConfig: {
+  //     TIME_WINDOW: 0.2, // XVIZ 配置中的时间窗口
+  //     PLAYBACK_FRAME_RATE: 16 // XVIZ 播放帧率
+  //   },
+  //   videoAspectRatio: 16 / 9 // 视频宽高比
+  // },
+  // { // 示例代码不能解析json
+  //   name: 'KITTI-0001-in-json', // 日志名称
+  //   path: `${LOG_DIR}/kitti/2011_09_26_drive_0001_sync/xviz_json`, // 日志路径
+  //   xvizConfig: {
+  //     TIME_WINDOW: 0.4 // XVIZ 配置中的时间窗口
+  //   },
+  //   videoAspectRatio: 10 / 3 // 视频宽高比
+  // },
+
 ];
 
 export const MOBILE_NOTIFICATION = {

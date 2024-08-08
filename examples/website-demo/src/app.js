@@ -42,7 +42,7 @@ class Example extends PureComponent {
       timingsFilePath: `${logSettings.path}/0-frame.json`, // 时间文件路径
       getFilePath: index => `${logSettings.path}/${index + 1}-frame.glb`, // 每个帧文件路径
       worker: true, // 是否使用 worker
-      maxConcurrency: 4 // 最大并发数
+      maxConcurrency: 2 // 最大并发数
     })
       .on('ready', () =>
         // 设置流配置
